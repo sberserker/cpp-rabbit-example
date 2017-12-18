@@ -1,0 +1,40 @@
+version: '3'
+services:
+    rabbit:
+        hostname: rabbit
+        image: rabbitmq:3-management
+        networks:
+            testing_net:
+                ipv4_address: 172.28.0.2  #cpp couldn't resolve host rabbit, had to put ip      
+
+    consumer:
+        build:
+            context: ./consume
+            dockerfile: Dockerfile
+        links:
+            - rabbit
+        depends_on:
+            - rabbit
+        networks:
+            - testing_net    
+
+    publisher:
+        hostname: publisher
+        build:
+            context: ./publish
+            dockerfile: Dockerfile
+        ports:
+            - "8000:8000"
+        links:
+            - rabbit
+        depends_on:
+            - rabbit
+        networks:
+            - testing_net                        
+
+networks:
+    testing_net:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.28.0.0/16
