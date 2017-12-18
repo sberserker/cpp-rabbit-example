@@ -17,7 +17,7 @@ Install docker and docker compose. Run the following commands to test the queue:
     sudo docker logs cpprabbitexample_consumer_1
 
     #cleanup
-    docker-compose -f docker-compose.yml down --rmi local | true
+    docker-compose -f docker-compose.yml down --rmi local
 
 References
 ----------------
